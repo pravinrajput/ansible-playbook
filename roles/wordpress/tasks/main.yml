@@ -6,7 +6,10 @@
 #    dest=/var/www/html/drupal/
 #    update=no
 
-- include: /home/ansible/roles/apache/tasks/main.yml
+#- name: Include Variables
+#  include_vars: roles/mysql/vars/env.yml
+
+- include: /home/{{ dir_name }}/roles/apache/tasks/main.yml
 
 - name: download  the code from repository
   get_url: url=https://wordpress.org/latest.tar.gz dest=/tmp/latest.tar.gz
