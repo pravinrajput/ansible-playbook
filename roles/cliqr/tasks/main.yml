@@ -1,26 +1,26 @@
 ---
 
   - name: Copy
-    copy: src=/usr/local/osmosix/etc/userenv dest=/home/ansible/roles/cliqr/vars/userenv.yml
+    copy: src=/usr/local/osmosix/etc/userenv dest=/home/{{ dir_name }}/roles/cliqr/vars/userenv.yml
 
   - name: Remove export
-    replace: dest=/home/ansible/roles/cliqr/vars/userenv.yml
+    replace: dest=/home/{{ dir_name }}/roles/cliqr/vars/userenv.yml
               regexp='^export '
               replace=' '
               backup=yes
 
   - name: Replace
-    replace: dest=/home/ansible/roles/cliqr/vars/userenv.yml
+    replace: dest=/home/{{ dir_name }}/roles/cliqr/vars/userenv.yml
               regexp='='
               replace='= '
 
   - name: Replace
-    replace: dest=/home/ansible/roles/cliqr/vars/userenv.yml
+    replace: dest=/home/{{ dir_name }}/roles/cliqr/vars/userenv.yml
               regexp='='
               replace=':'
 
   - name: Replace Word
-    lineinfile: dest=/home/ansible/roles/cliqr/vars/userenv.yml
+    lineinfile: dest=/home/{{ dir_name }}/roles/cliqr/vars/userenv.yml
                 regexp='^ volumeSet'
                 line=' '
                 state=absent
