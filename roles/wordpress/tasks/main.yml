@@ -1,0 +1,53 @@
+---
+
+#- name: Clone Drupal
+#  git: >
+#    repo=http://git.drupal.org/project/drupal.git
+#    dest=/var/www/html/drupal/
+#    update=no
+
+- include: /home/ansible/roles/apache/tasks/main.yml
+
+- name: download  the code from repository
+  get_url: url=https://wordpress.org/latest.tar.gz dest=/tmp/latest.tar.gz
+
+- name: Create Dir
+  command: mkdir -p /var/www/html/
+  
+- name: Copy the code from repository
+  unarchive: src=/tmp/latest.tar.gz dest=/var/www/html/ copy=no
+
+- name: Copy config file
+  template: src=setup-config.php.j2 dest=/var/www/html/wordpress/wp-admin/setup-config.php
+
+- name: Update permissions of files directory
+  file: >
+    path=/var/www/html/wordpress
+    mode=755
+    state=directory
+    recurse=yes
+    owner=apache
+    group=apache
+
+#- name: Include Variables
+#  include_vars: roles/mysql/vars/env.yml
+
+- name: Replace MySQL IP Address
+  replace: dest=/var/www/html/wordpress/wp-admin/setup-config.php
+           regexp='%DB_TIER_IP%'
+           replace={{ CliqrTier_mysql_IP }}
+
+- name: Replace MySQL DB
+  replace: dest=/var/www/html/wordpress/wp-admin/setup-config.php
+           regexp='%mysql_db%'
+           replace={{ dbname }}
+
+- name: Replace MySQL Username
+  replace: dest=/var/www/html/wordpress/wp-admin/setup-config.php
+           regexp='%mysql_username%'
+           replace={{ dbusername }}
+
+- name: Replace MySQL Password
+  replace: dest=/var/www/html/wordpress/wp-admin/setup-config.php
+           regexp='%mysql_password%'
+           replace={{ dbpassword }}

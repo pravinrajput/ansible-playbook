@@ -1,0 +1,26 @@
+---
+
+#- name: Clone Drupal
+#  git: >
+#    repo=http://git.drupal.org/project/drupal.git
+#    dest=/var/www/html/drupal/
+#    update=no
+
+- name: download  the code from repository
+  get_url: url=http://www.magentocommerce.com/downloads/assets/1.9.0.1/magento-1.9.0.1.tar.gz dest=/tmp
+
+- name: Create Dir
+  command: mkdir -p /var/www/html/
+  
+- name: Copy the code from repository
+  unarchive: src=/tmp/magento-1.9.0.1.tar.gz dest=/var/www/html/ copy=no
+
+#- name: Copy the code from repository
+#  command: mv /var/www/html/magento-1.9.0.1 /var/www/html/magento
+
+- name: Update permissions of files directory
+  file: >
+    path=/var/www/html/magento
+    mode=777
+    state=directory
+    recurse=yes

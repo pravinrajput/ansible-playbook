@@ -1,0 +1,23 @@
+---
+# Install Mysql server module
+- name: Install Mysql package
+  yum: name={{ item }} state=present
+  with_items:
+   - mysql-server
+   - MySQL-python
+   - libselinux-python
+   - libsemanage-python
+   - mysql
+
+- name: Start Mysql Service
+  service: name=mysqld  state=started enabled=yes
+
+# Create a new database
+#- name: Include Variables
+#  include_vars: roles/mysql/vars/env.yml
+
+- name: Create a New Database
+  mysql_db: name={{ dbname }} state=present
+
+- name: Create MySQL User
+  mysql_user: name={{ dbusername }} password={{ dbpassword }} priv={{ dbname }}.*:ALL host='%' state=present

@@ -1,0 +1,19 @@
+---
+# Apache installation
+- name: install apache
+  yum: pkg={{ item }} state=present
+  with_items:
+   - php
+   - php-mysql
+   - php-gd
+   - php-mcrypt
+   - php-xml
+   - httpd
+   - mcrypt
+   - git
+   - libsemanage-python
+   - libselinux-python
+
+- name: http service state
+  service: name=httpd state=started enabled=yes
+
