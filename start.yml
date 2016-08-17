@@ -6,5 +6,7 @@
   vars_files:
   - roles/cliqr/vars/userenv.yml
 
-  tasks:
-  - include: roles/{{ role }}/tasks/main.yml
+#  tasks:
+#  - include: roles/{{ role }}/tasks/main.yml
+  roles:
+  - "{{ role }}"
